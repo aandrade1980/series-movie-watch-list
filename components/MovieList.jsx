@@ -23,8 +23,7 @@ const MovieList = ({ movies = [] }) => {
             cursor: 'pointer',
           }}
         >
-          {movie.Title}
-
+          <span>{movie.Title}</span>
           <Image
             src={movie.Poster === 'N/A' ? '/no-poster.png' : movie.Poster}
             alt={movie.title}
