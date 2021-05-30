@@ -1,3 +1,4 @@
+import { Text, Tooltip } from '@chakra-ui/react';
 import Image from 'next/image';
 
 const MovieList = ({ movies = [] }) => {
@@ -23,7 +24,10 @@ const MovieList = ({ movies = [] }) => {
             cursor: 'pointer',
           }}
         >
-          <span>{movie.Title}</span>
+          <Tooltip label={movie.Title} hasArrow bg="gray.300" color="black">
+            <Text isTruncated>{movie.Title}</Text>
+          </Tooltip>
+
           <Image
             src={movie.Poster === 'N/A' ? '/no-poster.png' : movie.Poster}
             alt={movie.title}
