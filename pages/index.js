@@ -2,11 +2,21 @@ import Head from 'next/head';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useQuery } from 'react-query';
+import {
+  Box,
+  Button,
+  Flex,
+  Heading,
+  Input,
+  Spinner,
+  Text,
+} from '@chakra-ui/react';
 
 import { fetchMoviesAndSeries } from '@/utils/fetch';
 
-import styles from '@/styles/Home.module.css';
 import MovieList from '@/components/MovieList';
+
+import styles from '@/styles/Home.module.css';
 
 export default function Home() {
   const [searchValue, setSearchValue] = useState('');
@@ -24,10 +34,6 @@ export default function Home() {
 
   const onSubmit = formData => setSearchValue(formData.searchValue);
 
-  if (isLoading) {
-    return <span>Loading...</span>;
-  }
-
   if (isError) {
     return <span>Error: {error.message}</span>;
   }
@@ -41,18 +47,47 @@ export default function Home() {
       </Head>
 
       <main className={styles.main}>
-        <h1 className={styles.title}>Series and Movie Watch List</h1>
+        <Heading as="h1" size="3xl" mb={6}>
+          Series and Movie Watch List
+        </Heading>
 
-        <div>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <input
-              type="text"
-              {...register('searchValue', { required: true })}
+        <Box mb={6}>
+          <Flex as="form" onSubmit={handleSubmit(onSubmit)}>
+            <Flex mr={2} flexDir="column">
+              <Input
+                placeholder="Star Wars"
+                type="text"
+                {...register('searchValue', { required: true })}
+              />
+              {errors.searchValue && (
+                <Text fontSize="md" color="red.500">
+                  This field is required
+                </Text>
+              )}
+            </Flex>
+            <Button
+              colorScheme="blue"
+              type="submit"
+              isLoading={isLoading}
+              loadingText="Searching"
+              spinnerPlacement="end"
+            >
+              Search
+            </Button>
+          </Flex>
+        </Box>
+
+        {isLoading && (
+          <Flex alignItems="center" h="md">
+            <Spinner
+              thickness="4px"
+              speed="0.65s"
+              emptyColor="gray.200"
+              color="blue.500"
+              size="xl"
             />
-            {errors.searchValue && <span>This field is required</span>}
-            <input type="submit" value="Search" />
-          </form>
-        </div>
+          </Flex>
+        )}
 
         {data && (
           <div>
