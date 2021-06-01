@@ -3,8 +3,6 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { Hydrate } from 'react-query/hydration';
 import { ChakraProvider } from '@chakra-ui/react';
 
-import '@/styles/globals.css';
-
 function MyApp({ Component, pageProps }) {
   const queryClientRef = React.useRef();
   if (!queryClientRef.current) {

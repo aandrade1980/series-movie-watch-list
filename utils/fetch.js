@@ -8,3 +8,13 @@ export const fetchMoviesAndSeries = async searchValue => {
     return data.Search;
   }
 };
+
+export const fetchMediaById = async mediaId => {
+  if (mediaId) {
+    const response = await fetch(
+      `https://www.omdbapi.com/?i=${mediaId}&apikey=${process.env.NEXT_PUBLIC_OMDB_API_KEY}`
+    );
+
+    return await response.json();
+  }
+};
