@@ -19,8 +19,6 @@ const MediaPage = () => {
     () => fetchMediaById(id)
   );
 
-  console.log('Data => ', data);
-
   if (isLoading || !data) {
     return (
       <Flex
@@ -40,6 +38,10 @@ const MediaPage = () => {
     );
   }
 
+  if (isError) {
+    return console.error('Error getting media info: ', error);
+  }
+
   return (
     <Box
       minH="100vh"
@@ -49,7 +51,7 @@ const MediaPage = () => {
       pt={4}
     >
       <Box ml={4}>
-        <Link href="/" as="">
+        <Link href="/">
           <svg
             className={styles.arrow_back_icons}
             fill="none"
@@ -58,9 +60,9 @@ const MediaPage = () => {
             xmlns="http://www.w3.org/2000/svg"
           >
             <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
               d="M10 19l-7-7m0 0l7-7m-7 7h18"
             ></path>
           </svg>
@@ -99,7 +101,7 @@ const MediaPage = () => {
             <Text fontSize="sm" color="#919293" fontWeight="bold">
               {data.Rated}
             </Text>
-            {data.Ratings[1] && (
+            {data.Type === 'movie' && data.Ratings[1] && (
               <HStack spacing="2.5px">
                 <Box
                   backgroundImage="url('/img/rotten.svg')"
@@ -121,7 +123,7 @@ const MediaPage = () => {
                 </Text>
               </HStack>
             )}
-            {data.Ratings[2] && (
+            {data.Type === 'movie' && data.Ratings[2] && (
               <HStack spacing="2.5px">
                 <Box
                   backgroundImage="url('/img/metacritic.svg')"
@@ -144,6 +146,33 @@ const MediaPage = () => {
               </HStack>
             )}
           </HStack>
+          <Box maxWidth="550px" mt={6}>
+            <Text>{data.Plot}</Text>
+          </Box>
+          <Flex mt={6} alignItems="center">
+            <Text
+              fontSize="sm"
+              textTransform="uppercase"
+              color="hsl(330,5%,60%)"
+              mr={6}
+              fontWeight="semibold"
+            >
+              Released
+            </Text>
+            <Text fontSize="sm">{data.Released}</Text>
+          </Flex>
+          <Flex alignItems="center">
+            <Text
+              fontSize="sm"
+              textTransform="uppercase"
+              color="hsl(330,5%,60%)"
+              mr={12}
+              fontWeight="semibold"
+            >
+              Genre
+            </Text>
+            <Text fontSize="sm">{data.Genre}</Text>
+          </Flex>
         </Box>
       </Flex>
     </Box>
