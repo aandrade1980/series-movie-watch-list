@@ -59,11 +59,6 @@ export default function Home() {
                 type="text"
                 {...register('searchValue', { required: true })}
               />
-              {errors.searchValue && (
-                <Text fontSize="md" color="red.500">
-                  This field is required
-                </Text>
-              )}
             </Flex>
             <Button
               colorScheme="blue"
