@@ -1,8 +1,8 @@
-import { Box, Flex, Heading, Text } from '@chakra-ui/layout';
-import { useRouter } from 'next/router';
 import Image from 'next/image';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { Box, Flex, Heading, Text, Spinner, HStack } from '@chakra-ui/react';
 import { useQuery } from 'react-query';
-import { Spinner } from '@chakra-ui/spinner';
 
 import { fetchMediaById } from '@/utils/fetch';
 
@@ -41,7 +41,31 @@ const MediaPage = () => {
   }
 
   return (
-    <Box minH="100vh" backgroundColor="#485553" pt={10} color="#eeeeee">
+    <Box
+      minH="100vh"
+      background="radial-gradient(circle, rgba(72,85,83,1) 0%, rgba(55,50,55,1) 100%);"
+      pt={10}
+      color="#eeeeee"
+      pt={4}
+    >
+      <Box ml={4}>
+        <Link href="/" as="">
+          <svg
+            className={styles.arrow_back_icons}
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M10 19l-7-7m0 0l7-7m-7 7h18"
+            ></path>
+          </svg>
+        </Link>
+      </Box>
       <Flex mt={8} mx={24}>
         <Box
           height="375px"
@@ -68,9 +92,58 @@ const MediaPage = () => {
           <Text fontWeight="semibold" mb={2}>
             {data.Year}
           </Text>
-          <Text fontSize="sm" color="#919293" fontWeight="semibold">
-            {data.Runtime} {data.Rated}
-          </Text>
+          <HStack>
+            <Text fontSize="sm" color="#919293" fontWeight="bold">
+              {data.Runtime}
+            </Text>
+            <Text fontSize="sm" color="#919293" fontWeight="bold">
+              {data.Rated}
+            </Text>
+            {data.Ratings[1] && (
+              <HStack spacing="2.5px">
+                <Box
+                  backgroundImage="url('/img/rotten.svg')"
+                  backgroundPosition="100%"
+                  backgroundSize="contain"
+                  backgroundRepeat="no-repeat"
+                  width="1.2em"
+                  height="24px"
+                />
+                <Text
+                  fontSize="sm"
+                  color="#919293"
+                  fontWeight="bold"
+                  display="flex"
+                  alignItems="center"
+                  ml={0}
+                >
+                  {data.Ratings[1].Value}
+                </Text>
+              </HStack>
+            )}
+            {data.Ratings[2] && (
+              <HStack spacing="2.5px">
+                <Box
+                  backgroundImage="url('/img/metacritic.svg')"
+                  backgroundPosition="100%"
+                  backgroundSize="contain"
+                  backgroundRepeat="no-repeat"
+                  width="1.2em"
+                  height="24px"
+                />
+                <Text
+                  fontSize="sm"
+                  color="#919293"
+                  fontWeight="bold"
+                  display="flex"
+                  alignItems="center"
+                  ml={0}
+                >
+                  {data.Ratings[2].Value}
+                </Text>
+              </HStack>
+            )}
+          </HStack>
         </Box>
       </Flex>
     </Box>
