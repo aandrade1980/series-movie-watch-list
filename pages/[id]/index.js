@@ -9,6 +9,7 @@ import {
   HStack,
   Spinner,
   Text,
+  Tooltip,
   useToast,
 } from '@chakra-ui/react';
 import { useQueryClient, useMutation } from 'react-query';
@@ -16,7 +17,7 @@ import { useMemo } from 'react';
 
 import { useAllWatchedMedia, useMediaById } from '@/hooks/media';
 
-import { setMediaAsWatched } from '@/utils/fetch';
+import { removeMediaFromWatched, setMediaAsWatched } from '@/utils/fetch';
 
 import styles from '@/styles/Home.module.css';
 
@@ -30,7 +31,9 @@ const MediaPage = () => {
     allWatchedMedia,
     errorWatchedMedia,
   } = useAllWatchedMedia();
+
   const queryClient = useQueryClient();
+
   const watched = useMemo(
     () => allWatchedMedia && allWatchedMedia.find(media => media.imdbID === id),
     [allWatchedMedia]
@@ -38,32 +41,45 @@ const MediaPage = () => {
 
   const toast = useToast();
 
-  const { mutate } = useMutation(setMediaAsWatched, {
-    onMutate: async media => {
-      await queryClient.cancelQueries('allMediaWatched');
-      const previousMedia = queryClient.getQueryData('allMediaWatched');
+  const { mutate } = useMutation(
+    watched ? removeMediaFromWatched : setMediaAsWatched,
+    {
+      onMutate: async media => {
+        await queryClient.cancelQueries('allMediaWatched');
+        const previousMedia = queryClient.getQueryData('allMediaWatched');
+        const updatedMedia = [...previousMedia];
 
-      queryClient.setQueryData('allMediaWatched', old => [...old, media]);
+        watched
+          ? queryClient.setQueryData(
+              'allMediaWatched',
+              updatedMedia.filter(
+                eachValue => eachValue.imdbID !== media.imdbID
+              )
+            )
+          : queryClient.setQueryData('allMediaWatched', old => [...old, media]);
 
-      return { previousMedia };
-    },
-    onSuccess: media =>
-      toast({
-        title: `${media.type} set as watched.`,
-        status: 'success',
-        duration: 4500,
-        isClosable: true,
-        position: 'top',
-      }),
-    onError: () =>
-      toast({
-        title: 'Please try again later',
-        status: 'error',
-        isClosable: true,
-        duration: 4500,
-        position: 'top',
-      }),
-  });
+        return { previousMedia };
+      },
+      onSuccess: () =>
+        toast({
+          title: `${media.Type} successfully set as ${
+            watched ? 'not watched' : 'watched'
+          }`,
+          status: 'success',
+          duration: 4500,
+          isClosable: true,
+          position: 'top',
+        }),
+      onError: () =>
+        toast({
+          title: 'Please try again later',
+          status: 'error',
+          isClosable: true,
+          duration: 4500,
+          position: 'top',
+        }),
+    }
+  );
 
   if (isLoading || isLoadingWatchedMedia || !media) {
     return (
@@ -97,7 +113,10 @@ const MediaPage = () => {
 
   const handleButtonClick = () => {
     const { Title, Poster, Type, Year, imdbID } = media;
-    mutate({ title: Title, poster: Poster, type: Type, year: Year, imdbID });
+    const data = watched
+      ? { imdbID }
+      : { title: Title, poster: Poster, type: Type, year: Year, imdbID };
+    mutate(data);
   };
 
   return (
@@ -150,27 +169,49 @@ const MediaPage = () => {
             <Heading as="h3" size="lg" my={2} maxW="85%">
               {media.Title}
             </Heading>
-            <Button
-              variant="outline"
-              className={styles.watched_button}
-              onClick={handleButtonClick}
-              disabled={watched}
+            <Tooltip
+              hasArrow
+              label={`Set as ${watched ? 'not watched' : 'watched'}`}
+              bg="gray.300"
+              color="black"
+              fontSize="sm"
             >
-              <svg
-                className={styles.check_icon}
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
+              <Button
+                variant="outline"
+                className={styles.watched_button}
+                onClick={handleButtonClick}
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                ></path>
-              </svg>
-            </Button>
+                {watched ? (
+                  <svg
+                    className={styles.check_icon}
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                      clipRule="evenodd"
+                    ></path>
+                  </svg>
+                ) : (
+                  <svg
+                    className={styles.check_icon}
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                    ></path>
+                  </svg>
+                )}
+              </Button>
+            </Tooltip>
           </Flex>
           <Text fontWeight="semibold" mb={2}>
             {media.Year}
