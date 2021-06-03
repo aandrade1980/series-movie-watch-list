@@ -11,11 +11,10 @@ import {
   Text,
   useToast,
 } from '@chakra-ui/react';
-import { useMutation } from 'react-query';
+import { useQueryClient, useMutation } from 'react-query';
 import { useMemo } from 'react';
-import { useQueryClient } from 'react-query';
 
-import { useAllWatchedMedia, useMediaById } from 'hooks/hooks';
+import { useAllWatchedMedia, useMediaById } from '@/hooks/media';
 
 import { setMediaAsWatched } from '@/utils/fetch';
 
