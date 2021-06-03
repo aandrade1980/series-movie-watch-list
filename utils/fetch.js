@@ -18,3 +18,33 @@ export const fetchMediaById = async mediaId => {
     return await response.json();
   }
 };
+
+export const fetchAllMediaWatched = async () => {
+  const response = await fetch('api/media');
+
+  const result = await response.json();
+
+  if (!result.success) {
+    throw new Error('Error getting all media Watched');
+  }
+
+  return result.data;
+};
+
+export const setMediaAsWatched = async media => {
+  const response = await fetch('api/media', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(media),
+  });
+
+  const result = await response.json();
+
+  if (!result.success) {
+    throw new Error(result.message);
+  }
+
+  return result.data;
+};
