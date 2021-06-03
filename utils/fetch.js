@@ -48,3 +48,21 @@ export const setMediaAsWatched = async media => {
 
   return result.data;
 };
+
+export const removeMediaFromWatched = async mediaId => {
+  const response = await fetch('api/media', {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(mediaId),
+  });
+
+  const result = await response.json();
+
+  if (!result.success) {
+    throw new Error(result.message);
+  }
+
+  return result.data;
+};
