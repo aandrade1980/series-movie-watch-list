@@ -2,15 +2,7 @@ import Head from 'next/head';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useQuery } from 'react-query';
-import {
-  Box,
-  Button,
-  Flex,
-  Heading,
-  Input,
-  Spinner,
-  Text,
-} from '@chakra-ui/react';
+import { Box, Button, Flex, Heading, Input, Spinner } from '@chakra-ui/react';
 
 import { fetchMoviesAndSeries } from '@/utils/fetch';
 
@@ -18,21 +10,24 @@ import MovieList from '@/components/MovieList';
 
 import styles from '@/styles/Home.module.css';
 
+const isServer = typeof window === 'undefined';
+
 export default function Home() {
-  const [searchValue, setSearchValue] = useState('');
+  const [searchValue, setSearchValue] = useState(
+    (!isServer && localStorage.getItem('searchValue')) || ''
+  );
 
   const { isLoading, isError, data, error } = useQuery(
     ['moviesAndSeries', searchValue],
     () => fetchMoviesAndSeries(searchValue)
   );
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
+  const { register, handleSubmit } = useForm();
 
-  const onSubmit = formData => setSearchValue(formData.searchValue);
+  const onSubmit = ({ inputValue }) => {
+    setSearchValue(inputValue);
+    localStorage.setItem('searchValue', inputValue);
+  };
 
   if (isError) {
     return <span>Error: {error.message}</span>;
@@ -57,7 +52,8 @@ export default function Home() {
               <Input
                 placeholder="Star Wars"
                 type="text"
-                {...register('searchValue', { required: true })}
+                defaultValue={searchValue}
+                {...register('inputValue', { required: true })}
               />
             </Flex>
             <Button
