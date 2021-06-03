@@ -33,8 +33,21 @@
   border-radius: 2%;
 }
 
-.arrow_back_icons {
+.arrow_back_icon {
   width: 28px;
   height: 28px;
   cursor: pointer;
+}
+
+.check_icon {
+  width: 24px;
+  height: 24px;
+}
+
+.watched_button:hover {
+  color: rgba(0, 0, 0, 1);
+}
+
+.watched_button:active {
+  transform: scale(0.95);
 }

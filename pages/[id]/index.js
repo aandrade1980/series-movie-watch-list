@@ -1,25 +1,71 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { Box, Flex, Heading, Text, Spinner, HStack } from '@chakra-ui/react';
-import { useQuery } from 'react-query';
+import {
+  Box,
+  Button,
+  Flex,
+  Heading,
+  HStack,
+  Spinner,
+  Text,
+  useToast,
+} from '@chakra-ui/react';
+import { useQueryClient, useMutation } from 'react-query';
+import { useMemo } from 'react';
 
-import { fetchMediaById } from '@/utils/fetch';
+import { useAllWatchedMedia, useMediaById } from '@/hooks/media';
+
+import { setMediaAsWatched } from '@/utils/fetch';
 
 import styles from '@/styles/Home.module.css';
 
 const MediaPage = () => {
   const router = useRouter();
   const { id } = router.query;
-
-  console.log('ID => ', id);
-
-  const { isLoading, isError, data, error } = useQuery(
-    ['movieOrSerie', id],
-    () => fetchMediaById(id)
+  const { isLoading, isError, media, error } = useMediaById(id);
+  const {
+    isLoadingWatchedMedia,
+    isErrorWatchedMedia,
+    allWatchedMedia,
+    errorWatchedMedia,
+  } = useAllWatchedMedia();
+  const queryClient = useQueryClient();
+  const watched = useMemo(
+    () => allWatchedMedia && allWatchedMedia.find(media => media.imdbID === id),
+    [allWatchedMedia]
   );
 
-  if (isLoading || !data) {
+  const toast = useToast();
+
+  const { mutate } = useMutation(setMediaAsWatched, {
+    onMutate: async media => {
+      await queryClient.cancelQueries('allMediaWatched');
+      const previousMedia = queryClient.getQueryData('allMediaWatched');
+
+      queryClient.setQueryData('allMediaWatched', old => [...old, media]);
+
+      return { previousMedia };
+    },
+    onSuccess: media =>
+      toast({
+        title: `${media.type} set as watched.`,
+        status: 'success',
+        duration: 4500,
+        isClosable: true,
+        position: 'top',
+      }),
+    onError: () =>
+      toast({
+        title: 'Please try again later',
+        status: 'error',
+        isClosable: true,
+        duration: 4500,
+        position: 'top',
+      }),
+  });
+
+  if (isLoading || isLoadingWatchedMedia || !media) {
     return (
       <Flex
         h="100vh"
@@ -42,6 +88,18 @@ const MediaPage = () => {
     return console.error('Error getting media info: ', error);
   }
 
+  if (isErrorWatchedMedia) {
+    return console.error(
+      'Error getting all media watched: ',
+      errorWatchedMedia
+    );
+  }
+
+  const handleButtonClick = () => {
+    const { Title, Poster, Type, Year, imdbID } = media;
+    mutate({ title: Title, poster: Poster, type: Type, year: Year, imdbID });
+  };
+
   return (
     <Box
       minH="100vh"
@@ -53,7 +111,7 @@ const MediaPage = () => {
       <Box ml={4}>
         <Link href="/">
           <svg
-            className={styles.arrow_back_icons}
+            className={styles.arrow_back_icon}
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -79,8 +137,8 @@ const MediaPage = () => {
           }}
         >
           <Image
-            src={data.Poster === 'N/A' ? '/no-poster.png' : data.Poster}
-            alt={data.title}
+            src={media.Poster === 'N/A' ? '/no-poster.png' : media.Poster}
+            alt={media.title}
             layout="responsive"
             height={375}
             width={250}
@@ -88,20 +146,43 @@ const MediaPage = () => {
           />
         </Box>
         <Box>
-          <Heading as="h3" size="lg" my={2}>
-            {data.Title}
-          </Heading>
+          <Flex justifyContent="space-between" alignItems="center">
+            <Heading as="h3" size="lg" my={2} maxW="85%">
+              {media.Title}
+            </Heading>
+            <Button
+              variant="outline"
+              className={styles.watched_button}
+              onClick={handleButtonClick}
+              disabled={watched}
+            >
+              <svg
+                className={styles.check_icon}
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                ></path>
+              </svg>
+            </Button>
+          </Flex>
           <Text fontWeight="semibold" mb={2}>
-            {data.Year}
+            {media.Year}
           </Text>
           <HStack>
             <Text fontSize="sm" color="#919293" fontWeight="bold">
-              {data.Runtime}
+              {media.Runtime}
             </Text>
             <Text fontSize="sm" color="#919293" fontWeight="bold">
-              {data.Rated}
+              {media.Rated}
             </Text>
-            {data.Type === 'movie' && data.Ratings[1] && (
+            {media.Type === 'movie' && media.Ratings[1] && (
               <HStack spacing="2.5px">
                 <Box
                   backgroundImage="url('/img/rotten.svg')"
@@ -119,11 +200,11 @@ const MediaPage = () => {
                   alignItems="center"
                   ml={0}
                 >
-                  {data.Ratings[1].Value}
+                  {media.Ratings[1].Value}
                 </Text>
               </HStack>
             )}
-            {data.Type === 'movie' && data.Ratings[2] && (
+            {media.Type === 'movie' && media.Ratings[2] && (
               <HStack spacing="2.5px">
                 <Box
                   backgroundImage="url('/img/metacritic.svg')"
@@ -141,13 +222,13 @@ const MediaPage = () => {
                   alignItems="center"
                   ml={0}
                 >
-                  {data.Ratings[2].Value}
+                  {media.Ratings[2].Value}
                 </Text>
               </HStack>
             )}
           </HStack>
           <Box maxWidth="550px" mt={6}>
-            <Text>{data.Plot}</Text>
+            <Text>{media.Plot}</Text>
           </Box>
           <Flex mt={6} alignItems="center">
             <Text
@@ -159,7 +240,7 @@ const MediaPage = () => {
             >
               Released
             </Text>
-            <Text fontSize="sm">{data.Released}</Text>
+            <Text fontSize="sm">{media.Released}</Text>
           </Flex>
           <Flex alignItems="center">
             <Text
@@ -171,7 +252,7 @@ const MediaPage = () => {
             >
               Genre
             </Text>
-            <Text fontSize="sm">{data.Genre}</Text>
+            <Text fontSize="sm">{media.Genre}</Text>
           </Flex>
         </Box>
       </Flex>
