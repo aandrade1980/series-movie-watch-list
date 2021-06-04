@@ -9,12 +9,11 @@ export default async function handler(req, res) {
       try {
         const moviesAndSeries = await Media.find({});
 
-        res.status(200).json({ success: true, data: moviesAndSeries });
+        return res.status(200).json({ success: true, data: moviesAndSeries });
       } catch (error) {
         console.error(`Error getting media ${error}`);
-        res.status(400).json({ success: false });
+        return res.status(400).json({ success: false });
       }
-      break;
     case 'POST':
       try {
         const { imdbID } = req.body;
@@ -29,12 +28,11 @@ export default async function handler(req, res) {
 
         const media = await Media.create(req.body);
 
-        res.status(201).json({ success: true, data: media });
+        return res.status(201).json({ success: true, data: media });
       } catch (error) {
         console.error(`Error POST media: ${error}`);
-        res.status(400).json({ success: false, error: error.message });
+        return res.status(400).json({ success: false, error: error.message });
       }
-      break;
     case 'DELETE':
       try {
         const result = await Media.deleteOne({ imdbID: req.body.imdbID });
@@ -44,16 +42,14 @@ export default async function handler(req, res) {
             .status(404)
             .json({ success: false, message: 'Item not found!' });
         }
-        res
+        return res
           .status(200)
           .json({ success: true, message: 'Media successfully removed!' });
       } catch (error) {
         console.error(`Error DELETE media: ${error}`);
-        res.status(500).json({ success: false });
+        return res.status(500).json({ success: false });
       }
-      break;
     default:
-      res.status(400).json({ success: false });
-      break;
+      return res.status(400).json({ success: false });
   }
 }

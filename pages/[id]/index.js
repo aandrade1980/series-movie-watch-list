@@ -12,8 +12,9 @@ import {
 import { useQueryClient, useMutation } from 'react-query';
 import { useMemo } from 'react';
 
-import Spinner from '@/components/Spinner';
 import { CheckIcon, CheckedIcon } from '@/components/Icons';
+import Rating from '@/components/Rating';
+import Spinner from '@/components/Spinner';
 
 import { useAllWatchedMedia, useMediaById } from '@/hooks/media';
 import useToast from '@/hooks/toast';
@@ -162,48 +163,10 @@ const MediaPage = () => {
               {media.Rated}
             </Text>
             {media.Type === 'movie' && media.Ratings[1] && (
-              <HStack spacing="2.5px">
-                <Box
-                  backgroundImage="url('/img/rotten.svg')"
-                  backgroundPosition="100%"
-                  backgroundSize="contain"
-                  backgroundRepeat="no-repeat"
-                  width="1.2em"
-                  height="24px"
-                />
-                <Text
-                  fontSize="sm"
-                  color="#919293"
-                  fontWeight="bold"
-                  display="flex"
-                  alignItems="center"
-                  ml={0}
-                >
-                  {media.Ratings[1].Value}
-                </Text>
-              </HStack>
+              <Rating value={media.Ratings[1].Value} img="rotten.svg" />
             )}
             {media.Type === 'movie' && media.Ratings[2] && (
-              <HStack spacing="2.5px">
-                <Box
-                  backgroundImage="url('/img/metacritic.svg')"
-                  backgroundPosition="100%"
-                  backgroundSize="contain"
-                  backgroundRepeat="no-repeat"
-                  width="1.2em"
-                  height="24px"
-                />
-                <Text
-                  fontSize="sm"
-                  color="#919293"
-                  fontWeight="bold"
-                  display="flex"
-                  alignItems="center"
-                  ml={0}
-                >
-                  {media.Ratings[2].Value}
-                </Text>
-              </HStack>
+              <Rating value={media.Ratings[2].Value} img="metacritic.svg" />
             )}
           </HStack>
           <Box maxWidth="550px" mt={6}>
