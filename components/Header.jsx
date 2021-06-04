@@ -70,7 +70,7 @@ export default function Header() {
         <Button variant="ghost" mr={2} onClick={handleClick}>
           {session ? 'Log Out' : 'Log In'}
         </Button>
-        <Avatar size="md" src={session?.user?.image} />
+        <Avatar size="sm" src={session?.user?.image} />
       </Flex>
     </Flex>
   );
