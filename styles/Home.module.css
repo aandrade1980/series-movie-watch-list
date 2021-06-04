@@ -51,3 +51,7 @@
 .watched_button:active {
   transform: scale(0.95);
 }
+
+.header_icons {
+  width: 32px;
+}
