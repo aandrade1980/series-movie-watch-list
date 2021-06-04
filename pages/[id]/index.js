@@ -1,5 +1,4 @@
 import Image from 'next/image';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import {
   Box,
@@ -7,15 +6,16 @@ import {
   Flex,
   Heading,
   HStack,
-  Spinner,
   Text,
   Tooltip,
-  useToast,
 } from '@chakra-ui/react';
 import { useQueryClient, useMutation } from 'react-query';
 import { useMemo } from 'react';
 
+import Spinner from '@/components/Spinner';
+
 import { useAllWatchedMedia, useMediaById } from '@/hooks/media';
+import useToast from '@/hooks/toast';
 
 import { removeMediaFromWatched, setMediaAsWatched } from '@/utils/fetch';
 
@@ -66,38 +66,17 @@ const MediaPage = () => {
             watched ? 'not watched' : 'watched'
           }`,
           status: 'success',
-          duration: 4500,
-          isClosable: true,
-          position: 'top',
         }),
       onError: () =>
         toast({
           title: 'Please try again later',
           status: 'error',
-          isClosable: true,
-          duration: 4500,
-          position: 'top',
         }),
     }
   );
 
   if (isLoading || isLoadingWatchedMedia || !media) {
-    return (
-      <Flex
-        h="100vh"
-        justifyContent="center"
-        alignItems="center"
-        backgroundColor="#485553"
-      >
-        <Spinner
-          thickness="4px"
-          speed="0.65s"
-          emptyColor="gray.200"
-          color="blue.500"
-          size="xl"
-        />
-      </Flex>
-    );
+    return <Spinner />;
   }
 
   if (isError) {
@@ -127,24 +106,6 @@ const MediaPage = () => {
       color="#eeeeee"
       pt={4}
     >
-      <Box ml={4}>
-        <Link href="/">
-          <svg
-            className={styles.arrow_back_icon}
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M10 19l-7-7m0 0l7-7m-7 7h18"
-            ></path>
-          </svg>
-        </Link>
-      </Box>
       <Flex mt={8} mx={24}>
         <Box
           height="375px"
@@ -164,7 +125,7 @@ const MediaPage = () => {
             className={styles.poster}
           />
         </Box>
-        <Box>
+        <Box minW="450px">
           <Flex justifyContent="space-between" alignItems="center">
             <Heading as="h3" size="lg" my={2} maxW="85%">
               {media.Title}
