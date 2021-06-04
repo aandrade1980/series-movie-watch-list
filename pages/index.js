@@ -1,12 +1,12 @@
 import Head from 'next/head';
 import { useState } from 'react';
-import { useForm } from 'react-hook-form';
 import { useQuery } from 'react-query';
-import { Box, Button, Flex, Heading, Input, Spinner } from '@chakra-ui/react';
+import { Flex, Heading, Spinner } from '@chakra-ui/react';
 
 import { fetchMoviesAndSeries } from '@/utils/fetch';
 
 import MovieList from '@/components/MovieList';
+import SearchForm from '@/components/SearchForm';
 
 import styles from '@/styles/Home.module.css';
 
@@ -21,13 +21,6 @@ export default function Home() {
     ['moviesAndSeries', searchValue],
     () => fetchMoviesAndSeries(searchValue)
   );
-
-  const { register, handleSubmit } = useForm();
-
-  const onSubmit = ({ inputValue }) => {
-    setSearchValue(inputValue);
-    localStorage.setItem('searchValue', inputValue);
-  };
 
   if (isError) {
     return <span>Error: {error.message}</span>;
@@ -46,27 +39,11 @@ export default function Home() {
           Series and Movie Watch List
         </Heading>
 
-        <Box mb={6}>
-          <Flex as="form" onSubmit={handleSubmit(onSubmit)}>
-            <Flex mr={2} flexDir="column">
-              <Input
-                placeholder="Star Wars"
-                type="text"
-                defaultValue={searchValue}
-                {...register('inputValue', { required: true })}
-              />
-            </Flex>
-            <Button
-              colorScheme="blue"
-              type="submit"
-              isLoading={isLoading}
-              loadingText="Searching"
-              spinnerPlacement="end"
-            >
-              Search
-            </Button>
-          </Flex>
-        </Box>
+        <SearchForm
+          searchValue={searchValue}
+          setSearchValue={setSearchValue}
+          isLoading={isLoading}
+        />
 
         {isLoading && (
           <Flex alignItems="center" h="md">
