@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { signIn, signOut, useSession } from 'next-auth/client';
 import { Avatar, Button, Flex, Text } from '@chakra-ui/react';
 
-import styles from '@/styles/Home.module.css';
+import { HomeIcon, WatchedListIcon } from './Icons';
 
 export default function Header() {
   const [session] = useSession();
@@ -29,14 +29,7 @@ export default function Header() {
             _hover={{ textDecor: 'underline' }}
             borderBottom={asPath === '/' ? '3px solid #2B6CB0' : ''}
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className={styles.header_icons}
-              viewBox="0 0 20 20"
-              fill="currentColor"
-            >
-              <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
-            </svg>
+            <HomeIcon h={8} w={8} />
             <Text fontSize="xs" _hover={{ textDecor: 'underline' }}>
               home
             </Text>
@@ -50,18 +43,7 @@ export default function Header() {
             _hover={{ textDecor: 'underline' }}
             borderBottom={asPath === '/watched' ? '2px solid #2B6CB0' : ''}
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className={styles.header_icons}
-              viewBox="0 0 20 20"
-              fill="currentColor"
-            >
-              <path
-                fillRule="evenodd"
-                d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
-                clipRule="evenodd"
-              />
-            </svg>
+            <WatchedListIcon h={8} w={8} />
             <Text fontSize="xs">watched</Text>
           </Flex>
         </Link>
