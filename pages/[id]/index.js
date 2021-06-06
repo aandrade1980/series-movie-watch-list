@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import {
@@ -10,13 +11,13 @@ import {
   Tooltip,
 } from '@chakra-ui/react';
 import { useQueryClient, useMutation } from 'react-query';
-import { useMemo } from 'react';
+import { signIn, useSession } from 'next-auth/client';
 
 import { CheckIcon, CheckedIcon } from '@/components/Icons';
 import Rating from '@/components/Rating';
 import Spinner from '@/components/Spinner';
 
-import { useAllWatchedMedia, useMediaById } from '@/hooks/media';
+import { useAllWatchedMediaByUser, useMediaById } from '@/hooks/media';
 import useToast from '@/hooks/toast';
 
 import { removeMediaFromWatched, setMediaAsWatched } from '@/utils/fetch';
@@ -24,6 +25,7 @@ import { removeMediaFromWatched, setMediaAsWatched } from '@/utils/fetch';
 import styles from '@/styles/Home.module.css';
 
 const MediaPage = () => {
+  const [session] = useSession();
   const router = useRouter();
   const { id } = router.query;
   const { isLoading, isError, media, error } = useMediaById(id);
@@ -32,16 +34,16 @@ const MediaPage = () => {
     isErrorWatchedMedia,
     allWatchedMedia,
     errorWatchedMedia,
-  } = useAllWatchedMedia();
+  } = useAllWatchedMediaByUser(session?.user?.email);
 
   const queryClient = useQueryClient();
+
+  const toast = useToast();
 
   const watched = useMemo(
     () => allWatchedMedia && allWatchedMedia.find(media => media.imdbID === id),
     [allWatchedMedia]
   );
-
-  const toast = useToast();
 
   const { mutate } = useMutation(
     watched ? removeMediaFromWatched : setMediaAsWatched,
@@ -92,11 +94,22 @@ const MediaPage = () => {
     );
   }
 
-  const handleButtonClick = () => {
+  const handleButtonClick = async () => {
+    if (!session) {
+      return signIn('google');
+    }
     const { Title, Poster, Type, Year, imdbID } = media;
+    const user = session.user.email;
     const data = watched
-      ? { imdbID }
-      : { title: Title, poster: Poster, type: Type, year: Year, imdbID };
+      ? { imdbID, user }
+      : {
+          title: Title,
+          poster: Poster,
+          type: Type,
+          year: Year,
+          imdbID,
+          user,
+        };
     mutate(data);
   };
 

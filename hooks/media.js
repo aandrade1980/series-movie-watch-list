@@ -1,6 +1,6 @@
 import { useQuery } from 'react-query';
 
-import { fetchAllMediaWatched, fetchMediaById } from '@/utils/fetch';
+import { fetchAllMediaWatchedByUser, fetchMediaById } from '@/utils/fetch';
 
 export const useMediaById = mediaId => {
   const { isLoading, isError, data, error } = useQuery(
@@ -11,10 +11,9 @@ export const useMediaById = mediaId => {
   return { isLoading, isError, media: data, error };
 };
 
-export const useAllWatchedMedia = () => {
-  const { isLoading, isError, data, error } = useQuery(
-    'allMediaWatched',
-    fetchAllMediaWatched
+export const useAllWatchedMediaByUser = user => {
+  const { isLoading, isError, data, error } = useQuery('allMediaWatched', () =>
+    fetchAllMediaWatchedByUser(user)
   );
 
   return {

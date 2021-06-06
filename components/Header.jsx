@@ -1,7 +1,8 @@
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { signIn, signOut, useSession } from 'next-auth/client';
-import { Avatar, Button, Flex, Text } from '@chakra-ui/react';
+import { Avatar, Button, Flex } from '@chakra-ui/react';
+
+import HeaderOption from './HeaderOption';
 
 import { HomeIcon, WatchedListIcon } from './Icons';
 
@@ -21,32 +22,14 @@ export default function Header() {
         h="100%"
         fontSize="sm"
       >
-        <Link href="/">
-          <Flex
-            flexDir="column"
-            alignItems="center"
-            cursor="pointer"
-            _hover={{ textDecor: 'underline' }}
-            borderBottom={asPath === '/' ? '3px solid #2B6CB0' : ''}
-          >
-            <HomeIcon h={8} w={8} />
-            <Text fontSize="xs" _hover={{ textDecor: 'underline' }}>
-              home
-            </Text>
-          </Flex>
-        </Link>
-        <Link href="/watched">
-          <Flex
-            flexDir="column"
-            alignItems="center"
-            cursor="pointer"
-            _hover={{ textDecor: 'underline' }}
-            borderBottom={asPath === '/watched' ? '2px solid #2B6CB0' : ''}
-          >
-            <WatchedListIcon h={8} w={8} />
-            <Text fontSize="xs">watched</Text>
-          </Flex>
-        </Link>
+        <HeaderOption asPath={asPath} path="/" text="home">
+          <HomeIcon h={7} w={7} />
+        </HeaderOption>
+        {session && (
+          <HeaderOption asPath={asPath} path="/watched" text="watched">
+            <WatchedListIcon h={7} w={7} />
+          </HeaderOption>
+        )}
       </Flex>
       <Flex alignItems="center">
         <Button variant="ghost" mr={2} onClick={handleClick}>

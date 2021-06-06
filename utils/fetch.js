@@ -19,8 +19,8 @@ export const fetchMediaById = async mediaId => {
   }
 };
 
-export const fetchAllMediaWatched = async () => {
-  const response = await fetch('api/media');
+export const fetchAllMediaWatchedByUser = async user => {
+  const response = await fetch(`api/media/?user=${user}`);
 
   const result = await response.json();
 
