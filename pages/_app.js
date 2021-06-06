@@ -4,6 +4,7 @@ import { ReactQueryDevtools } from 'react-query/devtools';
 import { Hydrate } from 'react-query/hydration';
 import { ChakraProvider } from '@chakra-ui/react';
 import { Provider } from 'next-auth/client';
+
 import Header from '@/components/Header';
 
 function MyApp({ Component, pageProps }) {

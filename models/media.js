@@ -2,18 +2,18 @@ import mongoose from 'mongoose';
 
 const MediaSchema = new mongoose.Schema(
   {
-    title: {
+    Title: {
       type: String,
       required: true,
     },
-    poster: {
+    Poster: {
       type: String,
     },
-    type: {
+    Type: {
       type: String,
       required: true,
     },
-    year: {
+    Year: {
       type: String,
       required: true,
     },
