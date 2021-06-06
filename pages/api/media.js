@@ -7,7 +7,15 @@ export default async function handler(req, res) {
   switch (req.method) {
     case 'GET':
       try {
-        const moviesAndSeries = await Media.find({});
+        const user = req.query?.user;
+
+        if (!user) {
+          return res
+            .status(500)
+            .json({ success: false, error: 'Missing User!' });
+        }
+
+        const moviesAndSeries = await Media.find({ user });
 
         res.status(200).json({ success: true, data: moviesAndSeries });
       } catch (error) {
@@ -17,9 +25,9 @@ export default async function handler(req, res) {
       break;
     case 'POST':
       try {
-        const { imdbID } = req.body;
+        const { imdbID, user } = req.body;
 
-        const result = await Media.find({ imdbID });
+        const result = await Media.find({ imdbID, user });
 
         if (result.length > 0) {
           return res

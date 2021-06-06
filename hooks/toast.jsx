@@ -5,7 +5,7 @@ const useToast = () => {
 
   const toastImplementation = config =>
     chakraToast({
-      duration: 4500,
+      duration: 3500,
       isClosable: true,
       position: 'top',
       ...config,
