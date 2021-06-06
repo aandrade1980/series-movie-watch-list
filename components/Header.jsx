@@ -14,7 +14,17 @@ export default function Header() {
   const handleClick = () => (session ? signOut() : signIn('google'));
 
   return (
-    <Flex h="4rem" alignItems="center" justifyContent="space-between" px="2rem">
+    <Flex
+      h="4rem"
+      alignItems="center"
+      justifyContent="space-between"
+      px="2rem"
+      position="sticky"
+      top="0"
+      backgroundColor="rgba(255,255,255,0.5)"
+      zIndex="1"
+      style={{ backdropFilter: 'blur(5px)' }}
+    >
       <Flex
         alignItems="flex-end"
         justifyContent="space-between"

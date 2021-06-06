@@ -98,16 +98,12 @@ const MediaPage = () => {
     if (!session) {
       return signIn('google');
     }
-    const { Title, Poster, Type, Year, imdbID } = media;
+
     const user = session.user.email;
     const data = watched
-      ? { imdbID, user }
+      ? { imdbID: media.imdbID, user }
       : {
-          title: Title,
-          poster: Poster,
-          type: Type,
-          year: Year,
-          imdbID,
+          ...media,
           user,
         };
     mutate(data);
@@ -115,7 +111,7 @@ const MediaPage = () => {
 
   return (
     <Box
-      minH="100vh"
+      minH="calc(100vh - 4rem)"
       background="radial-gradient(circle, rgba(72,85,83,1) 0%, rgba(55,50,55,1) 100%);"
       pt={10}
       color="#eeeeee"
