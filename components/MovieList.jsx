@@ -2,7 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Box, Text, Tooltip } from '@chakra-ui/react';
 
-import styles from '@/styles/Home.module.css';
+import styles from '@/styles/Home.module.scss';
 
 const MovieList = ({ movies = [] }) => {
   return (

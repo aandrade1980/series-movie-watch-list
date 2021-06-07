@@ -22,7 +22,7 @@ import useToast from '@/hooks/toast';
 
 import { removeMediaFromWatched, setMediaAsWatched } from '@/utils/fetch';
 
-import styles from '@/styles/Home.module.css';
+import styles from '@/styles/Home.module.scss';
 
 const MediaPage = () => {
   const [session] = useSession();

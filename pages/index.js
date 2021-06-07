@@ -8,7 +8,7 @@ import { fetchMoviesAndSeries } from '@/utils/fetch';
 import MovieList from '@/components/MovieList';
 import SearchForm from '@/components/SearchForm';
 
-import styles from '@/styles/Home.module.css';
+import styles from '@/styles/Home.module.scss';
 
 const isServer = typeof window === 'undefined';
 
