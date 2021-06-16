@@ -30,7 +30,6 @@ export default function Watched() {
       backgroundImage="linear-gradient(to top, #09203f 0%, #537895 100%)"
       pt={10}
       color="#eeeeee"
-      pt={4}
     >
       {allWatchedMedia && (
         <div>

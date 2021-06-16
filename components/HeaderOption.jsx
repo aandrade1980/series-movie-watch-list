@@ -3,7 +3,7 @@ import { Flex, Text } from '@chakra-ui/react';
 
 export default function HeaderOption({ asPath, children, path, text }) {
   return (
-    <Link href={path}>
+    <Link href={path} passHref>
       <Flex
         flexDir="column"
         alignItems="center"

@@ -18,7 +18,7 @@ const MovieList = ({ movies = [] }) => {
       }}
     >
       {movies.map(movie => (
-        <Link href="/[id]" as={`/${movie.imdbID}`} key={movie.imdbID}>
+        <Link href="/[id]" as={`/${movie.imdbID}`} key={movie.imdbID} passHref>
           <li
             style={{
               width: 200,
