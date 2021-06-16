@@ -2,6 +2,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Box, Text, Tooltip } from '@chakra-ui/react';
 
+import MediaPoster from './MediaPoster';
+
 import styles from '@/styles/Home.module.scss';
 
 const MovieList = ({ movies = [] }) => {
@@ -27,13 +29,11 @@ const MovieList = ({ movies = [] }) => {
             }}
           >
             <Box className={styles.poster_container}>
-              <Image
-                src={movie.Poster === 'N/A' ? '/no-poster.png' : movie.Poster}
-                alt={movie.title}
-                layout="responsive"
+              <MediaPoster
+                poster={movie.Poster}
+                title={movie.title}
                 height={444}
                 width={300}
-                className={styles.poster}
               />
             </Box>
             <Tooltip label={movie.Title} hasArrow bg="gray.300" color="black">
