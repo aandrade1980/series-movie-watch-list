@@ -38,20 +38,16 @@ export default function SearchForm({ isLoading, searchValue, setSearchValue }) {
               autoComplete="off"
               {...register('inputValue', { required: true })}
             />
-            <InputRightElement
-              children={
-                searchInputValue ? (
-                  <CloseIcon
-                    color="red.600"
-                    h="1.4em"
-                    w="1.4em"
-                    _active={{ transform: 'scale(0.95)', color: 'red.400' }}
-                  />
-                ) : null
-              }
-              onClick={handleClearInput}
-              cursor="pointer"
-            />
+            <InputRightElement onClick={handleClearInput} cursor="pointer">
+              {searchInputValue ? (
+                <CloseIcon
+                  color="red.600"
+                  h="1.4em"
+                  w="1.4em"
+                  _active={{ transform: 'scale(0.95)', color: 'red.400' }}
+                />
+              ) : null}
+            </InputRightElement>
           </InputGroup>
         </Flex>
         <Button

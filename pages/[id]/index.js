@@ -42,7 +42,7 @@ const MediaPage = () => {
 
   const watched = useMemo(
     () => allWatchedMedia && allWatchedMedia.find(media => media.imdbID === id),
-    [allWatchedMedia]
+    [allWatchedMedia, id]
   );
 
   const { mutate } = useMutation(
@@ -115,7 +115,6 @@ const MediaPage = () => {
       background="radial-gradient(circle, rgba(72,85,83,1) 0%, rgba(55,50,55,1) 100%);"
       pt={10}
       color="#eeeeee"
-      pt={4}
     >
       <Flex mt={8} mx={24}>
         <Box
