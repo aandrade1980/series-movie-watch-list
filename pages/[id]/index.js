@@ -16,6 +16,7 @@ import { signIn, useSession } from 'next-auth/client';
 import { CheckIcon, CheckedIcon } from '@/components/Icons';
 import Rating from '@/components/Rating';
 import Spinner from '@/components/Spinner';
+import MediaPoster from '@/components/MediaPoster';
 
 import { useAllWatchedMediaByUser, useMediaById } from '@/hooks/media';
 import useToast from '@/hooks/toast';
@@ -126,13 +127,11 @@ const MediaPage = () => {
             borderRadius: '2%',
           }}
         >
-          <Image
-            src={media.Poster === 'N/A' ? '/no-poster.png' : media.Poster}
-            alt={media.title}
-            layout="responsive"
+          <MediaPoster
+            poster={media.Poster}
+            title={media.Title}
             height={375}
             width={250}
-            className={styles.poster}
           />
         </Box>
         <Box minW="450px">
