@@ -1,5 +1,4 @@
 import { useMemo } from 'react';
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 import {
   Box,
@@ -8,7 +7,7 @@ import {
   Heading,
   HStack,
   Text,
-  Tooltip,
+  Tooltip
 } from '@chakra-ui/react';
 import { useQueryClient, useMutation } from 'react-query';
 import { signIn, useSession } from 'next-auth/client';
@@ -34,7 +33,7 @@ const MediaPage = () => {
     isLoadingWatchedMedia,
     isErrorWatchedMedia,
     allWatchedMedia,
-    errorWatchedMedia,
+    errorWatchedMedia
   } = useAllWatchedMediaByUser(session?.user?.email);
 
   const queryClient = useQueryClient();
@@ -70,13 +69,13 @@ const MediaPage = () => {
           title: `${media.Type} successfully set as ${
             watched ? 'not watched' : 'watched'
           }`,
-          status: 'success',
+          status: 'success'
         }),
       onError: () =>
         toast({
           title: 'Please try again later',
-          status: 'error',
-        }),
+          status: 'error'
+        })
     }
   );
 
@@ -105,7 +104,7 @@ const MediaPage = () => {
       ? { imdbID: media.imdbID, user }
       : {
           ...media,
-          user,
+          user
         };
     mutate(data);
   };
@@ -124,7 +123,7 @@ const MediaPage = () => {
           mr={8}
           style={{
             boxShadow: '0 -2px 10px rgba(0, 0, 0, 1)',
-            borderRadius: '2%',
+            borderRadius: '2%'
           }}
         >
           <MediaPoster
