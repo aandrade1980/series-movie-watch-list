@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import Link from 'next/link';
 import { Box, Text, Tooltip } from '@chakra-ui/react';
 
@@ -16,7 +15,7 @@ const MovieList = ({ movies = [] }) => {
         alignItems: 'flex-end',
         flexWrap: 'wrap',
         width: '80%',
-        margin: '0 auto',
+        margin: '0 auto'
       }}
     >
       {movies.map(movie => (
@@ -25,7 +24,7 @@ const MovieList = ({ movies = [] }) => {
             style={{
               width: 200,
               margin: 15,
-              cursor: 'pointer',
+              cursor: 'pointer'
             }}
           >
             <Box className={styles.poster_container}>
