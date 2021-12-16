@@ -4,7 +4,7 @@ import { Avatar, Button, Flex } from '@chakra-ui/react';
 
 import HeaderOption from './HeaderOption';
 
-import { HomeIcon, WatchedListIcon } from './Icons';
+import { HomeIcon, WatchedListIcon, Favorites } from './Icons';
 
 export default function Header() {
   const [session] = useSession();
@@ -27,19 +27,22 @@ export default function Header() {
     >
       <Flex
         alignItems="flex-end"
-        justifyContent="space-between"
-        width="115px"
+        justifyContent="flex-start"
+        gridGap={6}
         h="100%"
         fontSize="sm"
       >
-        <HeaderOption asPath={asPath} path="/" text="home">
+        <HeaderOption asPath={asPath} path="/" text="Home">
           <HomeIcon h={7} w={7} />
         </HeaderOption>
         {session && (
-          <HeaderOption asPath={asPath} path="/watched" text="watched">
+          <HeaderOption asPath={asPath} path="/watched" text="Watched">
             <WatchedListIcon h={7} w={7} />
           </HeaderOption>
         )}
+        <HeaderOption asPath={asPath} path="/favorites" text="Favorites">
+          <Favorites h={7} w={7} />
+        </HeaderOption>
       </Flex>
       <Flex alignItems="center">
         <Button variant="ghost" mr={2} onClick={handleClick}>

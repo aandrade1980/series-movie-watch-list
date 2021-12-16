@@ -31,6 +31,20 @@ export const fetchAllMediaWatchedByUser = async user => {
   return result.data;
 };
 
+export const fetchFavoritesMovies = async () => {
+  const response = await fetch(
+    'https://imdb-api.com/en/API/MostPopularMovies/k_vfdxkroo'
+  );
+
+  const jsonResponse = await response.json();
+
+  if (jsonResponse.errorMessage) {
+    throw new Error('Error getting favorites movies');
+  }
+
+  return jsonResponse.items;
+};
+
 export const setMediaAsWatched = async media => {
   const response = await fetch('api/media', {
     method: 'POST',
