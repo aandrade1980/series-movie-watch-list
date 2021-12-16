@@ -8,26 +8,32 @@ import { fetchFavoritesMovies } from '@/utils/fetch';
 
 import styles from '@/styles/Home.module.scss';
 
+const Container = ({ children }) => (
+  <Box
+    minH="calc(100vh - 4rem)"
+    backgroundImage="linear-gradient(to top, #09203f 0%, #537895 100%)"
+    pt={10}
+    color="#eeeeee"
+  >
+    {children}
+  </Box>
+);
+
 export default function Favorites() {
   const { isLoading, error, data } = useQuery(
     'favoritesMovies',
     fetchFavoritesMovies
   );
 
-  if (error) return 'An error has occurred: ' + error.message;
+  // TODO: add a spinner
+  if (isLoading) return <Container>Loading...</Container>;
+
+  if (error) return <Container>{error.message} </Container>;
 
   console.log('DATA => ', data);
 
   return (
-    <Box
-      minH="calc(100vh - 4rem)"
-      backgroundImage="linear-gradient(to top, #09203f 0%, #537895 100%)"
-      pt={10}
-      color="#eeeeee"
-    >
-      {/* TODO: add a spinner */}
-      {isLoading && <div>Loading...</div>}
-
+    <Container>
       <Flex wrap="wrap" justify="center" align="center" gridGap={4}>
         {data &&
           data.map(({ id, image, title }) => (
@@ -41,6 +47,6 @@ export default function Favorites() {
             </Box>
           ))}
       </Flex>
-    </Box>
+    </Container>
   );
 }

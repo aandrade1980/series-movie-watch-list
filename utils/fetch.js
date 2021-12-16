@@ -39,7 +39,9 @@ export const fetchFavoritesMovies = async () => {
   const jsonResponse = await response.json();
 
   if (jsonResponse.errorMessage) {
-    throw new Error('Error getting favorites movies');
+    throw new Error(
+      `Error getting favorites movies: ${jsonResponse.errorMessage}`
+    );
   }
 
   return jsonResponse.items;
