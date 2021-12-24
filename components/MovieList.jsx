@@ -1,30 +1,30 @@
-import Link from 'next/link';
-import { Box, Text, Tooltip } from '@chakra-ui/react';
+import Link from "next/link";
+import { Box, Text, Tooltip } from "@chakra-ui/react";
 
-import MediaPoster from './MediaPoster';
+import MediaPoster from "./MediaPoster";
 
-import styles from '@/styles/Home.module.scss';
+import styles from "@/styles/Home.module.scss";
 
 const MovieList = ({ movies = [] }) => {
   return (
     <ul
       style={{
-        display: 'flex',
-        listStyleType: 'none',
-        justifyContent: 'center',
-        alignItems: 'flex-end',
-        flexWrap: 'wrap',
-        width: '80%',
-        margin: '0 auto'
+        display: "flex",
+        listStyleType: "none",
+        justifyContent: "center",
+        alignItems: "flex-end",
+        flexWrap: "wrap",
+        width: "80%",
+        margin: "0 auto",
       }}
     >
-      {movies.map(movie => (
+      {movies.map((movie) => (
         <Link href="/[id]" as={`/${movie.imdbID}`} key={movie.imdbID} passHref>
           <li
             style={{
               width: 200,
               margin: 15,
-              cursor: 'pointer'
+              cursor: "pointer",
             }}
           >
             <Box className={styles.poster_container}>

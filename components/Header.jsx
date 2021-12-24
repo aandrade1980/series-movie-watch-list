@@ -1,17 +1,17 @@
-import { useRouter } from 'next/router';
-import { signIn, signOut, useSession } from 'next-auth/client';
-import { Avatar, Button, Flex } from '@chakra-ui/react';
+import { useRouter } from "next/router";
+import { signIn, signOut, useSession } from "next-auth/client";
+import { Avatar, Button, Flex } from "@chakra-ui/react";
 
-import HeaderOption from './HeaderOption';
+import HeaderOption from "./HeaderOption";
 
-import { HomeIcon, WatchedListIcon } from './Icons';
+import { HomeIcon, WatchedListIcon } from "./Icons";
 
 export default function Header() {
   const [session] = useSession();
   const router = useRouter();
   const { asPath } = router;
 
-  const handleClick = () => (session ? signOut() : signIn('google'));
+  const handleClick = () => (session ? signOut() : signIn("google"));
 
   return (
     <Flex
@@ -23,7 +23,7 @@ export default function Header() {
       top="0"
       backgroundColor="rgba(255,255,255,0.5)"
       zIndex="1"
-      style={{ backdropFilter: 'blur(5px)' }}
+      style={{ backdropFilter: "blur(5px)" }}
     >
       <Flex
         alignItems="flex-end"
@@ -43,7 +43,7 @@ export default function Header() {
       </Flex>
       <Flex alignItems="center">
         <Button variant="ghost" mr={2} onClick={handleClick}>
-          {session ? 'Log Out' : 'Log In'}
+          {session ? "Log Out" : "Log In"}
         </Button>
         <Avatar size="sm" src={session?.user?.image} />
       </Flex>

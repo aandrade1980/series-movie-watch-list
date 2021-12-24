@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const MediaSchema = new mongoose.Schema(
   {
@@ -27,8 +27,8 @@ const MediaSchema = new mongoose.Schema(
     },
   },
   {
-    collection: 'series-movies-watched',
+    collection: "series-movies-watched",
   }
 );
 
-export default mongoose.models.Media || mongoose.model('Media', MediaSchema);
+export default mongoose.models.Media || mongoose.model("Media", MediaSchema);

@@ -1,13 +1,13 @@
-import { useToast as useChakraToast } from '@chakra-ui/react';
+import { useToast as useChakraToast } from "@chakra-ui/react";
 
 const useToast = () => {
   const chakraToast = useChakraToast();
 
-  const toastImplementation = config =>
+  const toastImplementation = (config) =>
     chakraToast({
       duration: 3500,
       isClosable: true,
-      position: 'top',
+      position: "top",
       ...config,
     });
 
