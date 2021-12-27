@@ -202,6 +202,18 @@ const MediaPage = () => {
             </Text>
             <Text fontSize="sm">{media.Genre}</Text>
           </Flex>
+          <Flex alignItems="center">
+            <Text
+              fontSize="sm"
+              textTransform="uppercase"
+              color="hsl(330,5%,60%)"
+              mr={10}
+              fontWeight="semibold"
+            >
+              Actors
+            </Text>
+            <Text fontSize="sm">{media.Actors}</Text>
+          </Flex>
         </Box>
       </Flex>
     </Box>
