@@ -1,6 +1,6 @@
-import { Icon } from '@chakra-ui/react';
+import { Icon } from "@chakra-ui/react";
 
-export const HomeIcon = props => (
+export const HomeIcon = (props) => (
   <Icon viewBox="0 0 20 20" {...props}>
     <path
       fill="currentColor"
@@ -9,17 +9,27 @@ export const HomeIcon = props => (
   </Icon>
 );
 
-export const WatchedListIcon = props => (
+export const WatchedListIcon = (props) => (
   <Icon viewBox="0 0 20 20" {...props}>
     <path
-      fillRule="evenodd"
+      fill="currentColor"
       d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
       clipRule="evenodd"
     />
   </Icon>
 );
 
-export const CheckIcon = props => (
+export const DarkModeIcon = (props) => (
+  <Icon viewBox="0 0 20 20" {...props}>
+    <path
+      fill="currentColor"
+      d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"
+      clipRule="evenodd"
+    />
+  </Icon>
+);
+
+export const CheckIcon = (props) => (
   <Icon viewBox="0 0 24 24" {...props}>
     <path
       fill="none"
@@ -32,7 +42,7 @@ export const CheckIcon = props => (
   </Icon>
 );
 
-export const CheckedIcon = props => (
+export const CheckedIcon = (props) => (
   <Icon viewBox="0 0 20 20" {...props}>
     <path
       fill="currentColor"
@@ -43,7 +53,7 @@ export const CheckedIcon = props => (
   </Icon>
 );
 
-export const SearchIcon = props => (
+export const SearchIcon = (props) => (
   <Icon viewBox="0 0 20 20" {...props}>
     <path
       fill="currentColor"
@@ -54,7 +64,7 @@ export const SearchIcon = props => (
   </Icon>
 );
 
-export const CloseIcon = props => (
+export const CloseIcon = (props) => (
   <Icon viewBox="0 0 20 20" {...props}>
     <path
       fill="currentColor"
