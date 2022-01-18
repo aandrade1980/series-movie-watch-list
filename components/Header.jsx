@@ -1,16 +1,16 @@
-import { useRouter } from 'next/router';
-import { signIn, signOut, useSession } from 'next-auth/client';
+import { useRouter } from "next/router";
+import { signIn, signOut, useSession } from "next-auth/client";
 import {
   Avatar,
   Button,
   Flex,
   useColorMode,
-  useColorModeValue
-} from '@chakra-ui/react';
+  useColorModeValue,
+} from "@chakra-ui/react";
 
-import HeaderOption from './HeaderOption';
+import HeaderOption from "./HeaderOption";
 
-import { DarkModeIcon, HomeIcon, WatchedListIcon } from './Icons';
+import { DarkModeIcon, HomeIcon, WatchedListIcon } from "./Icons";
 
 export default function Header() {
   const [session] = useSession();
@@ -18,10 +18,10 @@ export default function Header() {
   const { asPath } = router;
   const { toggleColorMode } = useColorMode();
 
-  const bgColor = useColorModeValue('white', 'gray.600');
+  const bgColor = useColorModeValue("white", "gray.600");
 
   const handleClick = () =>
-    session ? signOut({ callbackUrl: '/' }) : signIn('google');
+    session ? signOut({ callbackUrl: "/" }) : signIn("google");
 
   return (
     <Flex
@@ -33,7 +33,7 @@ export default function Header() {
       top="0"
       backgroundColor={bgColor}
       zIndex="1"
-      style={{ backdropFilter: 'blur(5px)' }}
+      style={{ backdropFilter: "blur(5px)" }}
     >
       <Flex
         alignItems="flex-end"
@@ -56,7 +56,7 @@ export default function Header() {
           <DarkModeIcon h={6} w={6} />
         </Button>
         <Button variant="ghost" mr={2} onClick={handleClick}>
-          {session ? 'Log Out' : 'Log In'}
+          {session ? "Log Out" : "Log In"}
         </Button>
         <Avatar size="sm" src={session?.user?.image} />
       </Flex>
