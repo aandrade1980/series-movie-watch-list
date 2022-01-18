@@ -12,8 +12,18 @@ export const HomeIcon = props => (
 export const WatchedListIcon = props => (
   <Icon viewBox="0 0 20 20" {...props}>
     <path
-      fillRule="evenodd"
+      fill="currentColor"
       d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+      clipRule="evenodd"
+    />
+  </Icon>
+);
+
+export const DarkModeIcon = props => (
+  <Icon viewBox="0 0 20 20" {...props}>
+    <path
+      fill="currentColor"
+      d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"
       clipRule="evenodd"
     />
   </Icon>

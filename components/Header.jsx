@@ -1,17 +1,27 @@
 import { useRouter } from 'next/router';
 import { signIn, signOut, useSession } from 'next-auth/client';
-import { Avatar, Button, Flex } from '@chakra-ui/react';
+import {
+  Avatar,
+  Button,
+  Flex,
+  useColorMode,
+  useColorModeValue
+} from '@chakra-ui/react';
 
 import HeaderOption from './HeaderOption';
 
-import { HomeIcon, WatchedListIcon } from './Icons';
+import { DarkModeIcon, HomeIcon, WatchedListIcon } from './Icons';
 
 export default function Header() {
   const [session] = useSession();
   const router = useRouter();
   const { asPath } = router;
+  const { toggleColorMode } = useColorMode();
 
-  const handleClick = () => (session ? signOut() : signIn('google'));
+  const bgColor = useColorModeValue('white', 'gray.600');
+
+  const handleClick = () =>
+    session ? signOut({ callbackUrl: '/' }) : signIn('google');
 
   return (
     <Flex
@@ -21,7 +31,7 @@ export default function Header() {
       px="2rem"
       position="sticky"
       top="0"
-      backgroundColor="rgba(255,255,255,0.5)"
+      backgroundColor={bgColor}
       zIndex="1"
       style={{ backdropFilter: 'blur(5px)' }}
     >
@@ -42,6 +52,9 @@ export default function Header() {
         )}
       </Flex>
       <Flex alignItems="center">
+        <Button onClick={toggleColorMode} mr={1}>
+          <DarkModeIcon h={6} w={6} />
+        </Button>
         <Button variant="ghost" mr={2} onClick={handleClick}>
           {session ? 'Log Out' : 'Log In'}
         </Button>
