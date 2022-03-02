@@ -1,4 +1,4 @@
-import { useSession } from 'next-auth/client';
+import { useSession } from 'next-auth/react';
 import { Box } from '@chakra-ui/react';
 
 import { useAllWatchedMediaByUser } from '@/hooks/media';
@@ -7,13 +7,13 @@ import Spinner from '@/components/Spinner';
 import MovieList from '@/components/MovieList';
 
 export default function Watched() {
-  const [session] = useSession();
+  const { data: session } = useSession();
 
   const {
     isLoadingWatchedMedia,
     isErrorWatchedMedia,
     allWatchedMedia,
-    errorWatchedMedia,
+    errorWatchedMedia
   } = useAllWatchedMediaByUser(session?.user?.email);
 
   if (isLoadingWatchedMedia || !allWatchedMedia) {

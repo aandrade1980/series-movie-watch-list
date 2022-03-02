@@ -3,20 +3,23 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { Hydrate } from 'react-query/hydration';
 import { ChakraProvider } from '@chakra-ui/react';
-import { Provider } from 'next-auth/client';
+import { SessionProvider } from 'next-auth/react';
 
 import Header from '@/components/Header';
 
-function MyApp({ Component, pageProps }) {
+function MyApp({
+  Component,
+  pageProps: { session, dehydratedState, ...pageProps }
+}) {
   const queryClientRef = React.useRef();
   if (!queryClientRef.current) {
     queryClientRef.current = new QueryClient();
   }
 
   return (
-    <Provider session={pageProps.session}>
+    <SessionProvider session={session}>
       <QueryClientProvider client={queryClientRef.current}>
-        <Hydrate state={pageProps.dehydratedState}>
+        <Hydrate state={dehydratedState}>
           <ChakraProvider>
             <Header />
             <Component {...pageProps} />
@@ -24,7 +27,7 @@ function MyApp({ Component, pageProps }) {
           </ChakraProvider>
         </Hydrate>
       </QueryClientProvider>
-    </Provider>
+    </SessionProvider>
   );
 }
 

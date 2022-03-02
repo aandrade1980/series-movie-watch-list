@@ -4,30 +4,34 @@ const MediaSchema = new mongoose.Schema(
   {
     Title: {
       type: String,
-      required: true,
+      required: true
     },
     Poster: {
-      type: String,
+      type: String
     },
     Type: {
       type: String,
-      required: true,
+      required: true
     },
     Year: {
       type: String,
-      required: true,
+      required: true
     },
     imdbID: {
       type: String,
-      required: true,
+      required: true
     },
     user: {
       type: String,
-      required: true,
+      required: true
     },
+    createdAt: {
+      type: Date,
+      default: Date.now
+    }
   },
   {
-    collection: 'series-movies-watched',
+    collection: 'series-movies-watched'
   }
 );
 

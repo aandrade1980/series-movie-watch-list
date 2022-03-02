@@ -10,7 +10,7 @@ import {
   Tooltip
 } from '@chakra-ui/react';
 import { useQueryClient, useMutation } from 'react-query';
-import { signIn, useSession } from 'next-auth/client';
+import { signIn, useSession } from 'next-auth/react';
 
 import { CheckIcon, CheckedIcon } from '@/components/Icons';
 import Rating from '@/components/Rating';
@@ -25,7 +25,7 @@ import { removeMediaFromWatched, setMediaAsWatched } from '@/utils/fetch';
 import styles from '@/styles/Home.module.scss';
 
 const MediaPage = () => {
-  const [session] = useSession();
+  const { data: session } = useSession();
   const router = useRouter();
   const { id } = router.query;
   const { isLoading, isError, media, error } = useMediaById(id);

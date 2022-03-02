@@ -15,7 +15,9 @@ export default async function handler(req, res) {
             .json({ success: false, error: 'Missing User!' });
         }
 
-        const moviesAndSeries = await Media.find({ user });
+        const moviesAndSeries = await Media.find({ user }).sort({
+          createdAt: -1
+        });
 
         res.status(200).json({ success: true, data: moviesAndSeries });
       } catch (error) {
