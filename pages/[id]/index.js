@@ -1,5 +1,5 @@
-import { useMemo } from 'react';
-import { useRouter } from 'next/router';
+import { useMemo } from "react";
+import { useRouter } from "next/router";
 import {
   Box,
   Button,
@@ -7,22 +7,22 @@ import {
   Heading,
   HStack,
   Text,
-  Tooltip
-} from '@chakra-ui/react';
-import { useQueryClient, useMutation } from 'react-query';
-import { signIn, useSession } from 'next-auth/react';
+  Tooltip,
+} from "@chakra-ui/react";
+import { useQueryClient, useMutation } from "react-query";
+import { signIn, useSession } from "next-auth/react";
 
-import { CheckIcon, CheckedIcon } from '@/components/Icons';
-import Rating from '@/components/Rating';
-import Spinner from '@/components/Spinner';
-import MediaPoster from '@/components/MediaPoster';
+import { CheckIcon, CheckedIcon } from "@/components/Icons";
+import Rating from "@/components/Rating";
+import Spinner from "@/components/Spinner";
+import MediaPoster from "@/components/MediaPoster";
 
-import { useAllWatchedMediaByUser, useMediaById } from '@/hooks/media';
-import useToast from '@/hooks/toast';
+import { useAllWatchedMediaByUser, useMediaById } from "@/hooks/media";
+import useToast from "@/hooks/toast";
 
-import { removeMediaFromWatched, setMediaAsWatched } from '@/utils/fetch';
+import { removeMediaFromWatched, setMediaAsWatched } from "@/utils/fetch";
 
-import styles from '@/styles/Home.module.scss';
+import styles from "@/styles/Home.module.scss";
 
 const MediaPage = () => {
   const { data: session } = useSession();
@@ -33,7 +33,7 @@ const MediaPage = () => {
     isLoadingWatchedMedia,
     isErrorWatchedMedia,
     allWatchedMedia,
-    errorWatchedMedia
+    errorWatchedMedia,
   } = useAllWatchedMediaByUser(session?.user?.email);
 
   const queryClient = useQueryClient();
@@ -41,41 +41,45 @@ const MediaPage = () => {
   const toast = useToast();
 
   const watched = useMemo(
-    () => allWatchedMedia && allWatchedMedia.find(media => media.imdbID === id),
+    () =>
+      allWatchedMedia && allWatchedMedia.find((media) => media.imdbID === id),
     [allWatchedMedia, id]
   );
 
   const { mutate } = useMutation(
     watched ? removeMediaFromWatched : setMediaAsWatched,
     {
-      onMutate: async media => {
-        await queryClient.cancelQueries('allMediaWatched');
-        const previousMedia = queryClient.getQueryData('allMediaWatched');
+      onMutate: async (media) => {
+        await queryClient.cancelQueries("allMediaWatched");
+        const previousMedia = queryClient.getQueryData("allMediaWatched");
         const updatedMedia = [...previousMedia];
 
         watched
           ? queryClient.setQueryData(
-              'allMediaWatched',
+              "allMediaWatched",
               updatedMedia.filter(
-                eachValue => eachValue.imdbID !== media.imdbID
+                (eachValue) => eachValue.imdbID !== media.imdbID
               )
             )
-          : queryClient.setQueryData('allMediaWatched', old => [...old, media]);
+          : queryClient.setQueryData("allMediaWatched", (old) => [
+              ...old,
+              media,
+            ]);
 
         return { previousMedia };
       },
       onSuccess: () =>
         toast({
           title: `${media.Type} successfully set as ${
-            watched ? 'not watched' : 'watched'
+            watched ? "not watched" : "watched"
           }`,
-          status: 'success'
+          status: "success",
         }),
       onError: () =>
         toast({
-          title: 'Please try again later',
-          status: 'error'
-        })
+          title: "Please try again later",
+          status: "error",
+        }),
     }
   );
 
@@ -84,19 +88,19 @@ const MediaPage = () => {
   }
 
   if (isError) {
-    return console.error('Error getting media info: ', error);
+    return console.error("Error getting media info: ", error);
   }
 
   if (isErrorWatchedMedia) {
     return console.error(
-      'Error getting all media watched: ',
+      "Error getting all media watched: ",
       errorWatchedMedia
     );
   }
 
   const handleButtonClick = async () => {
     if (!session) {
-      return signIn('google');
+      return signIn("google");
     }
 
     const user = session.user.email;
@@ -104,7 +108,7 @@ const MediaPage = () => {
       ? { imdbID: media.imdbID, user }
       : {
           ...media,
-          user
+          user,
         };
     mutate(data);
   };
@@ -122,8 +126,8 @@ const MediaPage = () => {
           width="250px"
           mr={8}
           style={{
-            boxShadow: '0 -2px 10px rgba(0, 0, 0, 1)',
-            borderRadius: '2%'
+            boxShadow: "0 -2px 10px rgba(0, 0, 0, 1)",
+            borderRadius: "2%",
           }}
         >
           <MediaPoster
@@ -140,7 +144,7 @@ const MediaPage = () => {
             </Heading>
             <Tooltip
               hasArrow
-              label={`Set as ${watched ? 'not watched' : 'watched'}`}
+              label={`Set as ${watched ? "not watched" : "watched"}`}
               bg="gray.300"
               color="black"
               fontSize="sm"
@@ -168,10 +172,10 @@ const MediaPage = () => {
             <Text fontSize="sm" color="#919293" fontWeight="bold">
               {media.Rated}
             </Text>
-            {media.Type === 'movie' && media.Ratings[1] && (
+            {media.Type === "movie" && media.Ratings[1] && (
               <Rating value={media.Ratings[1].Value} img="rotten.svg" />
             )}
-            {media.Type === 'movie' && media.Ratings[2] && (
+            {media.Type === "movie" && media.Ratings[2] && (
               <Rating value={media.Ratings[2].Value} img="metacritic.svg" />
             )}
           </HStack>
