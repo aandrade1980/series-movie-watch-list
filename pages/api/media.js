@@ -1,22 +1,22 @@
-import dbConnect from '@/utils/mongodb';
-import Media from '@/models/media';
+import dbConnect from "@/utils/mongodb";
+import Media from "@/models/media";
 
 export default async function handler(req, res) {
   await dbConnect();
 
   switch (req.method) {
-    case 'GET':
+    case "GET":
       try {
         const user = req.query?.user;
 
         if (!user) {
           return res
             .status(500)
-            .json({ success: false, error: 'Missing User!' });
+            .json({ success: false, error: "Missing User!" });
         }
 
         const moviesAndSeries = await Media.find({ user }).sort({
-          createdAt: -1
+          createdAt: -1,
         });
 
         res.status(200).json({ success: true, data: moviesAndSeries });
@@ -25,7 +25,7 @@ export default async function handler(req, res) {
         res.status(400).json({ success: false });
       }
       break;
-    case 'POST':
+    case "POST":
       try {
         const { imdbID, user } = req.body;
 
@@ -34,7 +34,7 @@ export default async function handler(req, res) {
         if (result.length > 0) {
           return res
             .status(422)
-            .json({ success: false, message: 'Item already exists' });
+            .json({ success: false, message: "Item already exists" });
         }
 
         const media = await Media.create(req.body);
@@ -45,18 +45,18 @@ export default async function handler(req, res) {
         res.status(400).json({ success: false, error: error.message });
       }
       break;
-    case 'DELETE':
+    case "DELETE":
       try {
         const result = await Media.deleteOne({ imdbID: req.body.imdbID });
 
         if (result.deletedCount === 0) {
           return res
             .status(404)
-            .json({ success: false, message: 'Item not found!' });
+            .json({ success: false, message: "Item not found!" });
         }
         res
           .status(200)
-          .json({ success: true, message: 'Media successfully removed!' });
+          .json({ success: true, message: "Media successfully removed!" });
       } catch (error) {
         console.error(`Error DELETE media: ${error}`);
         res.status(500).json({ success: false });
