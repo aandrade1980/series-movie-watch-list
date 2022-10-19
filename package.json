@@ -26,5 +26,8 @@
   "devDependencies": {
     "eslint": "^7.28.0",
     "eslint-config-next": "^11.0.0"
+  },
+  "engines": {
+    "node": "v16.13.1"
   }
 }
