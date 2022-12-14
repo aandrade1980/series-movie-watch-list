@@ -1,11 +1,11 @@
-import { useSession } from 'next-auth/react';
-import Head from 'next/head';
-import { Box } from '@chakra-ui/react';
+import { useSession } from "next-auth/react";
+import Head from "next/head";
+import { Box } from "@chakra-ui/react";
 
-import { useAllWatchedMediaByUser } from '@/hooks/media';
+import { useAllWatchedMediaByUser } from "@/hooks/media";
 
-import Spinner from '@/components/Spinner';
-import MovieList from '@/components/MovieList';
+import Spinner from "@/components/Spinner";
+import MovieList from "@/components/MovieList";
 
 export default function Watched() {
   const { data: session } = useSession();
@@ -14,7 +14,7 @@ export default function Watched() {
     isLoadingWatchedMedia,
     isErrorWatchedMedia,
     allWatchedMedia,
-    errorWatchedMedia
+    errorWatchedMedia,
   } = useAllWatchedMediaByUser(session?.user?.email);
 
   if (isLoadingWatchedMedia || !allWatchedMedia) {
@@ -22,7 +22,7 @@ export default function Watched() {
   }
 
   if (isErrorWatchedMedia) {
-    return console.error('Error getting media watched: ', errorWatchedMedia);
+    return console.error("Error getting media watched: ", errorWatchedMedia);
   }
 
   return (
