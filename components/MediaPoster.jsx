@@ -9,7 +9,6 @@ export default function MediaPoster({ poster, title, height, width }) {
     <Image
       src={poster === 'N/A' ? noPoster : poster}
       alt={title}
-      layout="responsive"
       height={height}
       width={width}
       className={styles.poster}

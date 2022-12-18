@@ -36,7 +36,7 @@ const MovieList = ({ movies = [] }) => {
               />
             </Box>
             <Tooltip label={movie.Title} hasArrow bg="gray.300" color="black">
-              <Text fontSize="sm" fontWeight="semibold" isTruncated mt={2}>
+              <Text fontSize="sm" fontWeight="semibold" noOfLines={1} mt={2}>
                 {movie.Title}
               </Text>
             </Tooltip>
