@@ -128,7 +128,7 @@ const MediaPage = () => {
       >
         <Flex mt={8} mx={24}>
           <Box
-            height="375px"
+            height="100%"
             width="250px"
             mr={8}
             style={{
