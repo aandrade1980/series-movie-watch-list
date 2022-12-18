@@ -1,30 +1,30 @@
-import Link from 'next/link';
-import { Box, Text, Tooltip } from '@chakra-ui/react';
+import Link from "next/link";
+import { Box, Text, Tooltip } from "@chakra-ui/react";
 
-import MediaPoster from './MediaPoster';
+import MediaPoster from "./MediaPoster";
 
-import styles from '@/styles/Home.module.scss';
+import styles from "@/styles/Home.module.scss";
 
 const MovieList = ({ movies = [] }) => {
   return (
     <ul
       style={{
-        display: 'flex',
-        listStyleType: 'none',
-        justifyContent: 'center',
-        alignItems: 'flex-end',
-        flexWrap: 'wrap',
-        width: '80%',
-        margin: '0 auto'
+        display: "flex",
+        listStyleType: "none",
+        justifyContent: "center",
+        alignItems: "flex-end",
+        flexWrap: "wrap",
+        width: "80%",
+        margin: "0 auto",
       }}
     >
-      {movies.map(movie => (
+      {movies.map((movie) => (
         <Link href="/[id]" as={`/${movie.imdbID}`} key={movie.imdbID} passHref>
           <li
             style={{
               width: 200,
               margin: 15,
-              cursor: 'pointer'
+              cursor: "pointer",
             }}
           >
             <Box className={styles.poster_container}>
@@ -36,7 +36,7 @@ const MovieList = ({ movies = [] }) => {
               />
             </Box>
             <Tooltip label={movie.Title} hasArrow bg="gray.300" color="black">
-              <Text fontSize="sm" fontWeight="semibold" isTruncated mt={2}>
+              <Text fontSize="sm" fontWeight="semibold" noOfLines={1} mt={2}>
                 {movie.Title}
               </Text>
             </Tooltip>
