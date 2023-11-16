@@ -44,7 +44,7 @@ const MediaPage = () => {
   const watched = useMemo(
     () =>
       allWatchedMedia && allWatchedMedia.find((media) => media.imdbID === id),
-    [allWatchedMedia, id]
+    [allWatchedMedia, id],
   );
 
   const { mutate } = useMutation(
@@ -59,8 +59,8 @@ const MediaPage = () => {
           ? queryClient.setQueryData(
               "allMediaWatched",
               updatedMedia.filter(
-                (eachValue) => eachValue.imdbID !== media.imdbID
-              )
+                (eachValue) => eachValue.imdbID !== media.imdbID,
+              ),
             )
           : queryClient.setQueryData("allMediaWatched", (old) => [
               ...old,
@@ -81,7 +81,7 @@ const MediaPage = () => {
           title: "Please try again later",
           status: "error",
         }),
-    }
+    },
   );
 
   if (isLoading || isLoadingWatchedMedia || !media) {
@@ -95,7 +95,7 @@ const MediaPage = () => {
   if (isErrorWatchedMedia) {
     return console.error(
       "Error getting all media watched: ",
-      errorWatchedMedia
+      errorWatchedMedia,
     );
   }
 

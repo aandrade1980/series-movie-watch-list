@@ -1,5 +1,5 @@
-import dbConnect from '@/utils/mongodb';
-import Media from '@/models/media';
+import dbConnect from "@/utils/mongodb";
+import Media from "@/models/media";
 
 export default async function handler(req, res) {
   const {
@@ -10,7 +10,7 @@ export default async function handler(req, res) {
   await dbConnect();
 
   switch (method) {
-    case 'GET':
+    case "GET":
       try {
         const media = await Media.find({ imdbID: id });
 
