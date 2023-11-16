@@ -1,38 +1,38 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const MediaSchema = new mongoose.Schema(
   {
     Title: {
       type: String,
-      required: true
+      required: true,
     },
     Poster: {
-      type: String
+      type: String,
     },
     Type: {
       type: String,
-      required: true
+      required: true,
     },
     Year: {
       type: String,
-      required: true
+      required: true,
     },
     imdbID: {
       type: String,
-      required: true
+      required: true,
     },
     user: {
       type: String,
-      required: true
+      required: true,
     },
     createdAt: {
       type: Date,
-      default: Date.now
-    }
+      default: Date.now,
+    },
   },
   {
-    collection: 'series-movies-watched'
-  }
+    collection: "series-movies-watched",
+  },
 );
 
-export default mongoose.models.Media || mongoose.model('Media', MediaSchema);
+export default mongoose.models.Media || mongoose.model("Media", MediaSchema);

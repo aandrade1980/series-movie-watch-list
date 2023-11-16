@@ -1,25 +1,25 @@
-import Head from 'next/head';
-import { useState } from 'react';
-import { useQuery } from 'react-query';
-import { Flex, Heading, Spinner } from '@chakra-ui/react';
+import Head from "next/head";
+import { useState } from "react";
+import { useQuery } from "react-query";
+import { Flex, Heading, Spinner } from "@chakra-ui/react";
 
-import { fetchMoviesAndSeries } from '@/utils/fetch';
+import { fetchMoviesAndSeries } from "@/utils/fetch";
 
-import MovieList from '@/components/MovieList';
-import SearchForm from '@/components/SearchForm';
+import MovieList from "@/components/MovieList";
+import SearchForm from "@/components/SearchForm";
 
-import styles from '@/styles/Home.module.scss';
+import styles from "@/styles/Home.module.scss";
 
-const isServer = typeof window === 'undefined';
+const isServer = typeof window === "undefined";
 
 export default function Home() {
   const [searchValue, setSearchValue] = useState(
-    (!isServer && localStorage.getItem('searchValue')) || ''
+    (!isServer && localStorage.getItem("searchValue")) || "",
   );
 
   const { isLoading, isError, data, error } = useQuery(
-    ['moviesAndSeries', searchValue],
-    () => fetchMoviesAndSeries(searchValue)
+    ["moviesAndSeries", searchValue],
+    () => fetchMoviesAndSeries(searchValue),
   );
 
   if (isError) {

@@ -1,4 +1,4 @@
-import { Flex, Spinner as ChakraSpinner } from '@chakra-ui/react';
+import { Flex, Spinner as ChakraSpinner } from "@chakra-ui/react";
 
 export default function Spinner() {
   return (

@@ -5,25 +5,25 @@ import {
   Input,
   InputGroup,
   InputRightElement,
-} from '@chakra-ui/react';
-import { useForm } from 'react-hook-form';
+} from "@chakra-ui/react";
+import { useForm } from "react-hook-form";
 
-import { CloseIcon, SearchIcon } from './Icons';
+import { CloseIcon, SearchIcon } from "./Icons";
 
 export default function SearchForm({ isLoading, searchValue, setSearchValue }) {
   const { register, handleSubmit, reset, watch } = useForm();
 
-  const searchInputValue = watch('inputValue');
+  const searchInputValue = watch("inputValue");
 
   const onSubmit = ({ inputValue }) => {
     setSearchValue(inputValue);
-    localStorage.setItem('searchValue', inputValue);
+    localStorage.setItem("searchValue", inputValue);
   };
 
   const handleClearInput = () => {
-    reset({ inputValue: '' });
+    reset({ inputValue: "" });
     setSearchValue(null);
-    localStorage.setItem('searchValue', '');
+    localStorage.setItem("searchValue", "");
   };
 
   return (
@@ -36,7 +36,7 @@ export default function SearchForm({ isLoading, searchValue, setSearchValue }) {
               type="text"
               defaultValue={searchValue}
               autoComplete="off"
-              {...register('inputValue', { required: true })}
+              {...register("inputValue", { required: true })}
             />
             <InputRightElement onClick={handleClearInput} cursor="pointer">
               {searchInputValue ? (
@@ -44,7 +44,7 @@ export default function SearchForm({ isLoading, searchValue, setSearchValue }) {
                   color="red.600"
                   h="1.4em"
                   w="1.4em"
-                  _active={{ transform: 'scale(0.95)', color: 'red.400' }}
+                  _active={{ transform: "scale(0.95)", color: "red.400" }}
                 />
               ) : null}
             </InputRightElement>
