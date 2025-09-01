@@ -8,9 +8,6 @@
     "lint": "next lint",
     "start": "next start"
   },
-  "engines": {
-    "node": "22.x"
-  },
   "dependencies": {
     "@chakra-ui/react": "^2.4.3",
     "@emotion/react": "^11.10.5",
